@@ -1,12 +1,11 @@
-/* tokens.h */
 #ifndef TOKENS_H
 #define TOKENS_H
 
 typedef enum {
     TOKEN_EOF,
     TOKEN_NUMBER,      // e.g., "123", "456"
-    TOKEN_OPERATOR,    // +, -, *, /
-    TOKEN_IDENTIFIER,  // Variable names
+    TOKEN_OPERATOR,    // +, -, *, /, <, >, ==, !=, etc.
+    TOKEN_IDENTIFIER,  // Variable names or function names
     TOKEN_EQUALS,      // =
     TOKEN_SEMICOLON,   // ;
     TOKEN_LPAREN,      // (
@@ -16,6 +15,9 @@ typedef enum {
     TOKEN_IF,          // if keyword
     TOKEN_INT,         // int keyword
     TOKEN_PRINT,       // print keyword
+    TOKEN_WHILE,       // while keyword
+    TOKEN_REPEAT,      // repeat keyword
+    TOKEN_UNTIL,       // until keyword
     TOKEN_ERROR
 } TokenType;
 
@@ -31,8 +33,8 @@ typedef enum {
 typedef struct {
     TokenType type;
     char lexeme[100];   // Actual text of the token
-    int line;           // Line number in source file
-    ErrorType error;    // Error type if any
+    int line;           // Line number in the source file
+    ErrorType error;    // Error type, if any
 } Token;
 
 #endif /* TOKENS_H */
