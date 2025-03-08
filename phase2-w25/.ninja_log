@@ -1,0 +1,6 @@
+# ninja log v6
+1	157	7631586716532044	CMakeFiles/my-mini-compiler.dir/src/lexer/lexer.c.obj	2e8a82e371dff8b4
+99	157	7631587613051061	phase2-w25.exe	574dfab9fbe33f5
+10	104	7631587829528501	build.ninja	18d5bcaefc13604f
+15	76	7631587612214779	CMakeFiles/phase2-w25.dir/src/lexer/lexer.c.obj	96c6ffa345fb5220
+17	99	7631587612236036	CMakeFiles/phase2-w25.dir/src/parser/parser.c.obj	b734811bf364a00b
