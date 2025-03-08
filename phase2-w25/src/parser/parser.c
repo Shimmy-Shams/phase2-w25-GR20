@@ -375,7 +375,7 @@ static ASTNode *parse_statement(void) {
     } else if (match(TOKEN_LBRACE)) {
         return parse_block();
     }
-    printf("Syntax Error: Unexpected token '%s'\n", current_token.lexeme);
+    printf("Syntax Error: Unexpected token '%s' @ \n", current_token.lexeme);
     exit(1);
 }
 
@@ -466,36 +466,79 @@ void free_ast(ASTNode *node) {
 // -----------------------------------------------------------------
 // Main Function for Testing
 // -----------------------------------------------------------------
+char* read_file(const char* filename) {
+    FILE *file = fopen(filename, "rb");  // Open in binary mode
+    if (!file) {
+        perror("Error opening file");
+        return NULL;
+    }
+
+    fseek(file, 0L, SEEK_END);
+    long size = ftell(file);
+    rewind(file);
+
+    if (size < 0) {  // Handle ftell failure
+        fclose(file);
+        perror("ftell failed");
+        return NULL;
+    }
+
+    char *buffer = (char *)malloc(size + 1);
+    if (!buffer) {
+        fclose(file);
+        perror("Memory allocation failed");
+        return NULL;
+    }
+
+    size_t bytesRead = fread(buffer, 1, size, file);
+    buffer[bytesRead] = '\0';  // Use bytesRead, not size
+
+    fclose(file);
+
+    for (char* p = buffer; *p; ++p) {
+        if (*p == '\r') {
+            *p = ' ';  // Or simply remove it by shifting the text left
+        }
+    }
+
+    return buffer;
+}
+
 int main() {
-    /*
-       Test Input includes:
-         - Declaration and assignment.
-         - if-statement.
-         - while loop.
-         - repeat-until loop.
-         - print statement.
-         - A block.
-         - A factorial function call in an expression.
-    */
-    const char *input =
-        "int x;\n"
-        "x = 42;\n"
-        "if (x < 100) { \n"
-        "    print x;\n"
-        "}\n"
-        "while (x > 0) {\n"
-        "    x = x - 1;\n"
-        "}\n"
-        "repeat {\n"
-        "    x = x + 2;\n"
-        "} until (x == 10);\n"
-        "x = factorial(5) + (3 + 4) * 2;\n";
-        
-    printf("Parsing input:\n%s\n", input);
-    parser_init(input);
-    ASTNode *ast = parse();
-    printf("\nAbstract Syntax Tree:\n");
-    print_ast(ast, 0);
-    free_ast(ast);
+    const char *valid_filename = "test/input_valid.txt";
+    const char *invalid_filename = "test/input_invalid.txt";
+
+    printf("Parsing valid input from %s:\n", valid_filename);
+    char *valid_input = read_file(valid_filename);
+    if (valid_input) {
+        printf("Parsing:\n%s\n", valid_input);
+        parser_init(valid_input);
+        ASTNode *ast = parse();
+        if (ast) {
+            printf("\nAbstract Syntax Tree for valid input:\n");
+            print_ast(ast, 0);
+            free_ast(ast);
+        } else {
+            printf("Error parsing valid input.\n");
+        }
+        free(valid_input);
+    }
+
+    printf("\nParsing invalid input from %s:\n", invalid_filename);
+    char *invalid_input = read_file(invalid_filename);
+    if (invalid_input) {
+        printf("Parsing:\n%s\n", invalid_input);
+        parser_init(invalid_input);
+        ASTNode *ast = parse();
+        if (!ast) {
+            printf("Error parsing invalid input as expected.\n");
+        } else {
+            printf("\nAbstract Syntax Tree for invalid input (unexpected):\n");
+            print_ast(ast, 0);
+            free_ast(ast);
+        }
+        free(invalid_input);
+    }
+
     return 0;
 }

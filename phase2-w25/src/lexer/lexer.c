@@ -95,6 +95,7 @@ Token get_next_token(const char* input, int* pos) {
     if (input[*pos] == '\0') {
         token.type = TOKEN_EOF;
         strcpy(token.lexeme, "EOF");
+        current_line = 0;
         return token;
     }
 
