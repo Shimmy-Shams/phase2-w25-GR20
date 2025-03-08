@@ -33,6 +33,10 @@ static const char *source;
 // -----------------------------------------------------------------
 // Extended Parse Error Reporting
 // -----------------------------------------------------------------
+static void dbg() {
+    printf("%d - %d - %s\n", current_token.line, current_token.type, current_token.lexeme);
+}
+
 static void parse_error(ParseError error, Token token) {
     printf("Parse Error at line %d: ", token.line);
     switch (error) {
@@ -219,7 +223,8 @@ static ASTNode *parse_equality(void) {
 
 // The top-level parse_expression now uses our equality parsing.
 static ASTNode *parse_expression(void) {
-    return parse_equality();
+    ASTNode* node = parse_equality();
+    return node;
 }
 
 // -----------------------------------------------------------------
@@ -299,6 +304,7 @@ static ASTNode *parse_repeat_statement(void) {
     expect(TOKEN_LPAREN);
     node->right = parse_expression(); // condition
     expect(TOKEN_RPAREN);
+    expect(TOKEN_SEMICOLON);
     return node;
 }
 

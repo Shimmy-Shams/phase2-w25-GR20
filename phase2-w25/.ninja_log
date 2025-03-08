@@ -1,6 +1,12 @@
 # ninja log v6
-1	157	7631586716532044	CMakeFiles/my-mini-compiler.dir/src/lexer/lexer.c.obj	2e8a82e371dff8b4
-99	157	7631587613051061	phase2-w25.exe	574dfab9fbe33f5
+2	84	7631615843792016	CMakeFiles/phase2-w25.dir/src/parser/parser.c.obj	b734811bf364a00b
+11	73	7631615638812233	CMakeFiles/phase2-w25.dir/src/lexer/lexer.c.obj	96c6ffa345fb5220
 10	104	7631587829528501	build.ninja	18d5bcaefc13604f
-15	76	7631587612214779	CMakeFiles/phase2-w25.dir/src/lexer/lexer.c.obj	96c6ffa345fb5220
-17	99	7631587612236036	CMakeFiles/phase2-w25.dir/src/parser/parser.c.obj	b734811bf364a00b
+84	153	7631615844614260	phase2-w25.exe	574dfab9fbe33f5
+1	157	7631586716532044	CMakeFiles/my-mini-compiler.dir/src/lexer/lexer.c.obj	2e8a82e371dff8b4
+12	73	7631616141089645	CMakeFiles/phase2-w25.dir/src/lexer/lexer.c.obj	96c6ffa345fb5220
+74	133	7631616141702635	phase2-w25.exe	574dfab9fbe33f5
+10	93	7631616560047802	CMakeFiles/phase2-w25.dir/src/parser/parser.c.obj	b734811bf364a00b
+102	162	7631616560963041	phase2-w25.exe	574dfab9fbe33f5
+11	93	7631616926501362	CMakeFiles/phase2-w25.dir/src/parser/parser.c.obj	b734811bf364a00b
+93	154	7631616927314111	phase2-w25.exe	574dfab9fbe33f5

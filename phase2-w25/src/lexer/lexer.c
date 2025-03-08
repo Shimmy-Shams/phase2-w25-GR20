@@ -8,7 +8,6 @@
 #include "../../include/lexer.h"
 
 static int current_line = 1;
-static char last_token_type = 'x';
 
 // Keywords table
 static struct {
@@ -16,6 +15,9 @@ static struct {
     TokenType type;
 } keywords[] = {
     {"if", TOKEN_IF},
+    {"while", TOKEN_WHILE},
+    {"repeat", TOKEN_REPEAT},
+    {"until", TOKEN_UNTIL},
     {"int", TOKEN_INT},
     {"print", TOKEN_PRINT}
 };
@@ -140,15 +142,30 @@ Token get_next_token(const char* input, int* pos) {
 
     switch(c) {
         case '+': case '-': case '*': case '/':
-            if (last_token_type == 'o') {
-                token.error = ERROR_CONSECUTIVE_OPERATORS;
-                return token;
+            token.type = TOKEN_OPERATOR;
+            break;
+        case '>':
+            if (input[*pos] == '=') { // Check for >=
+                (*pos)++;
+                strcpy(token.lexeme, ">=");
             }
             token.type = TOKEN_OPERATOR;
-            last_token_type = 'o';
+            break;
+        case '<':
+            if (input[*pos] == '=') { // Check for <=
+                (*pos)++;
+                strcpy(token.lexeme, "<=");
+            }
+            token.type = TOKEN_OPERATOR;
             break;
         case '=':
-            token.type = TOKEN_EQUALS;
+            if (input[*pos] == '=') { // Check for ==
+                (*pos)++;
+                strcpy(token.lexeme, "==");
+                token.type = TOKEN_OPERATOR;
+            } else {
+                token.type = TOKEN_EQUALS;
+            }
             break;
         case ';':
             token.type = TOKEN_SEMICOLON;
